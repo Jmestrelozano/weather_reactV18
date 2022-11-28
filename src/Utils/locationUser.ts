@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
 import { alertError } from "./alertError";
 
-export const locationUser = (initialParams: { lat: number; long: number; isError: boolean }) => {
-  const [coords, setCoords] = useState(initialParams);
+export const locationUser = () => {
+  const [coords, setCoords] = useState({
+    lat: 0,
+    long: 0,
+    isError: false,
+  });
 
   if ("geolocation" in navigator) {
   } else {
@@ -18,5 +22,8 @@ export const locationUser = (initialParams: { lat: number; long: number; isError
     setCoords({ ...coords, lat: 0, long: 0, isError: true });
   };
 
-  return { coords, onUbicacionConcedida, onErrorDeUbicacion };
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(onUbicacionConcedida, onErrorDeUbicacion);
+  }, []);
+  return { coords };
 };

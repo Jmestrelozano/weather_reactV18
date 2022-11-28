@@ -28,11 +28,9 @@ function WeatherHomePage() {
     data: { hourly, daily },
   } = useAppSelector((store: storeInterface) => store.weather.wheatherForecast);
 
-  const { coords, onUbicacionConcedida, onErrorDeUbicacion } = locationUser({
-    lat: 0,
-    long: 0,
-    isError: true,
-  });
+  const { coords } = locationUser();
+
+  const { lat, long, isError } = coords;
 
   const [countryName, setCountryName] = useState<{ name: string }>({
     name: "",
@@ -79,9 +77,12 @@ function WeatherHomePage() {
     <BackgroundImage>
       <TobButton tabClick={setTabCountry} />
       <InputSearch
-        coords={coords}
         location={() => {
-          navigator.geolocation.getCurrentPosition(onUbicacionConcedida, onErrorDeUbicacion);
+          if (!isError) {
+            dispatch(getWeatherByLocation(lat, long));
+          } else {
+            alertError("Active la ubicacion, para poder acceder a su ubicacion");
+          }
         }}
         countryName={countryName}
         setCountryName={setCountryName}

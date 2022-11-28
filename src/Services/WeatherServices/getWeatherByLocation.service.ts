@@ -7,7 +7,7 @@ import { getWeatherForecast } from "./getWeatherForecast.service";
 export const getWeatherByLocation = (lat: number, long: number) => async (dispatch: Dispatch) => {
   try {
     const resp = await fetch(
-      BaseURL + `/weather?lat=${0}&lon=${0}` + `&appid=${ApiKEY}&units=metric`
+      BaseURL + `/weather?lat=${lat}&lon=${long}` + `&appid=${ApiKEY}&units=metric`
     );
 
     if (resp.status === 200) {

@@ -1,7 +1,4 @@
 import { UilLocationPoint } from "@iconscout/react-unicons";
-import { useEffect } from "react";
-import { useAppDispatch } from "../../Global/globales";
-import { getWeatherByLocation } from "../../Services/WeatherServices/getWeatherByLocation.service";
 
 interface props {
   countryName: { name: string };
@@ -11,26 +8,16 @@ interface props {
     }>
   >;
   location: () => void;
-  coords: { lat: number; long: number; isError: boolean };
 }
-export const InputSearch = ({
-  countryName,
-  setCountryName,
-  location,
-  coords: { lat, long, isError },
-}: props) => {
+export const InputSearch = ({ countryName, setCountryName, location }: props) => {
   const { name } = countryName;
-  const dispatch = useAppDispatch();
+
   const handleOnchangeText = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCountryName({
       ...countryName,
       name: e.target.value,
     });
   };
-
-  useEffect(() => {
-    !isError && dispatch(getWeatherByLocation(lat, long));
-  }, [lat, long]);
 
   return (
     <div className="flex flex-row justify-center my-6">
