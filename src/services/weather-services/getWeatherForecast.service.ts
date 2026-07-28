@@ -1,59 +1,51 @@
-import { ApiKEY, BaseURL } from "../../global/weatherApi";
 import { ILocalTime, IWeatherForecast } from "../../interfaces/weather-forecast.interface";
 import {
   errWheatherForecast,
   getWheatherForecast,
   loadWeatherForecast,
-} from "../../store/slices/weatherSlices";
+} from "../../store/weather/slice/weather.slice";
 import { AppDispatch } from "../../store/store";
 import { formatToLocalTime } from "../../utils/formatToLocalTime";
+import { fetchWeatherApi } from "./weather-api.client";
 
-export const getWeatherForecast = async (lat: number, lon: number, dispatch: AppDispatch) => {
-  dispatch(loadWeatherForecast());
-  try {
-    const resp = await fetch(
-      BaseURL +
-        `/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,alerts&units=metric` +
-        `&appid=${ApiKEY}`
-    );
+const mapDailyForecast = (
+  daily: IWeatherForecast["daily"],
+  timezone: string,
+): ILocalTime[] =>
+  daily.slice(1, 6).map((day) => ({
+    title: formatToLocalTime(day.dt, timezone, "ccc"),
+    temp: day.temp.day,
+    icon: day.weather[0]?.icon ?? "01d",
+  }));
 
-    if (resp.status === 200) {
-      const result: IWeatherForecast = await resp.json();
-      const { timezone, daily, hourly } = result;
+const mapHourlyForecast = (
+  hourly: IWeatherForecast["hourly"],
+  timezone: string,
+): ILocalTime[] =>
+  hourly.slice(1, 6).map((hour) => ({
+    title: formatToLocalTime(hour.dt, timezone, "hh:mm a"),
+    temp: hour.temp,
+    icon: hour.weather[0]?.icon ?? "01d",
+  }));
 
-      let dailyW: ILocalTime[] = [];
-      let hourlyW: ILocalTime[] = [];
+export const getWeatherForecast =
+  (lat: number, lon: number) => async (dispatch: AppDispatch) => {
+    dispatch(loadWeatherForecast());
 
-      dailyW = daily.slice(1, 6).map((d) => {
-        const icon = d.weather[0]?.icon ?? "01d";
-        return {
-          title: formatToLocalTime(d.dt, timezone, "ccc"),
-          temp: d.temp.day,
-          icon,
-        };
-      });
+    try {
+      const result = await fetchWeatherApi<IWeatherForecast>(
+        `/onecall?lat=${lat}&lon=${lon}&exclude=current,minutely,alerts`,
+      );
 
-      hourlyW = hourly.slice(1, 6).map((h) => {
-        const icon = h.weather[0]?.icon ?? "01d";
-        return {
-          title: formatToLocalTime(h.dt, timezone, "hh:mm a"),
-          temp: h.temp,
-          icon,
-        };
-      });
-
-      const data = {
-        timeZone: timezone,
-        daily: dailyW,
-        hourly: hourlyW,
-      };
-
-      dispatch(getWheatherForecast(data));
-    } else {
-      console.log("Hubo un error en la conexion");
+      dispatch(
+        getWheatherForecast({
+          timeZone: result.timezone,
+          daily: mapDailyForecast(result.daily, result.timezone),
+          hourly: mapHourlyForecast(result.hourly, result.timezone),
+        }),
+      );
+    } catch (error: unknown) {
+      dispatch(errWheatherForecast());
+      throw error;
     }
-  } catch (error) {
-    dispatch(errWheatherForecast());
-    throw error;
-  }
-};
+  };

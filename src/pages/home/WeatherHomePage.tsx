@@ -13,16 +13,14 @@ import { getAllCitys } from "../../services/country-services/getAllCitys.service
 import { getPopularCitys } from "../../services/country-services/getPopularCitys.service";
 import { getWeatherByCity } from "../../services/weather-services/getWeatherByCity.service";
 import { getWeatherByLocation } from "../../services/weather-services/getWeatherByLocation.service";
-import { citiesByAcronym, setStatusCityByName } from "../../store/slices/countrySlices";
+import { searchCityByName } from "../../store/country/actions/search-city-by-name.action";
+import { setStatusCityByName } from "../../store/country/slice/country.slice";
 import { alertError } from "../../utils/alertError";
 import { locationUser } from "../../utils/locationUser";
 
 function WeatherHomePage() {
   const dispatch = useAppDispatch();
-  const {
-    allCitys: { data: dataCitys },
-    statusCityByName,
-  } = useAppSelector((store) => store.country);
+  const { statusCityByName } = useAppSelector((store) => store.country);
   const { status } = useAppSelector((store) => store.weather.wheatherCity);
   const {
     data: { hourly, daily },
@@ -31,49 +29,53 @@ function WeatherHomePage() {
   const { coords } = locationUser();
   const { lat, long, isError } = coords;
 
-  const [countryName, setCountryName] = useState<{ name: string }>({
-    name: "",
-  });
-  const [tabCountry, setTabCountry] = useState<string>("");
+  const [countryName, setCountryName] = useState<{ name: string }>({ name: "" });
+  const [tabCountry, setTabCountry] = useState("");
 
   const { name } = countryName;
   const debounceValue = useDebounce(name, 500);
 
   useEffect(() => {
     dispatch(getAllCitys());
-    dispatch(getPopularCitys);
-  }, []);
+    dispatch(getPopularCitys());
+  }, [dispatch]);
 
-  const onchangeSearchCity = () => {
-    if (statusCityByName === typeStatus.SUCCESS) {
-      if (name !== "") {
-        dispatch(getWeatherByCity(name));
-      }
-    } else if (statusCityByName === typeStatus.FAILURE) {
+  useEffect(() => {
+    if (statusCityByName === typeStatus.SUCCESS && name !== "") {
+      dispatch(getWeatherByCity(name));
+      return;
+    }
+
+    if (statusCityByName === typeStatus.FAILURE) {
       dispatch(setStatusCityByName(typeStatus.NONE));
     }
-  };
+  }, [statusCityByName, dispatch, name]);
 
   useEffect(() => {
-    onchangeSearchCity();
-  }, [statusCityByName]);
-
-  const handleClickPopularCity = () => {
-    if (tabCountry !== "") {
-      dispatch(getWeatherByCity(tabCountry));
-      setCountryName({ ...countryName, name: "" });
+    if (tabCountry === "") {
+      return;
     }
-  };
+
+    dispatch(getWeatherByCity(tabCountry));
+    setCountryName({ name: "" });
+  }, [tabCountry, dispatch]);
 
   useEffect(() => {
-    handleClickPopularCity();
-  }, [tabCountry]);
-
-  useEffect(() => {
-    if (name !== "") {
-      dispatch(citiesByAcronym({ name, data: dataCitys }));
+    if (debounceValue === "") {
+      return;
     }
-  }, [debounceValue]);
+
+    dispatch(searchCityByName(debounceValue));
+  }, [debounceValue, dispatch]);
+
+  const handleLocation = () => {
+    if (isError) {
+      alertError("Active la ubicacion, para poder acceder a su ubicacion");
+      return;
+    }
+
+    dispatch(getWeatherByLocation(lat, long));
+  };
 
   const weatherContent =
     status === typeStatus.SUCCESS ? (
@@ -90,13 +92,7 @@ function WeatherHomePage() {
       header={<PopularCities tabClick={setTabCountry} />}
       search={
         <SearchBar
-          location={() => {
-            if (!isError) {
-              dispatch(getWeatherByLocation(lat, long));
-            } else {
-              alertError("Active la ubicacion, para poder acceder a su ubicacion");
-            }
-          }}
+          location={handleLocation}
           countryName={countryName}
           setCountryName={setCountryName}
         />

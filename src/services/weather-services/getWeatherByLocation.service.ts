@@ -1,28 +1,26 @@
-import { ApiKEY, BaseURL } from "../../global/weatherApi";
 import { IWeatherByCity } from "../../interfaces/weather-by-city.interface";
-import { wheatherCity } from "../../store/slices/weatherSlices";
+import {
+  errWeatherCity,
+  loadWeatherCity,
+  wheatherCity,
+} from "../../store/weather/slice/weather.slice";
 import { AppDispatch } from "../../store/store";
+import { fetchWeatherApi } from "./weather-api.client";
 import { getWeatherForecast } from "./getWeatherForecast.service";
 
 export const getWeatherByLocation =
-  (lat: number, long: number) => async (dispatch: AppDispatch) => {
-  try {
-    const resp = await fetch(
-      BaseURL + `/weather?lat=${lat}&lon=${long}` + `&appid=${ApiKEY}&units=metric`
-    );
+  (lat: number, lon: number) => async (dispatch: AppDispatch) => {
+    dispatch(loadWeatherCity());
 
-    if (resp.status === 200) {
-      const result: IWeatherByCity = await resp.json();
-      const {
-        coord: { lat, lon },
-      } = result;
-      getWeatherForecast(lat, lon, dispatch);
+    try {
+      const result = await fetchWeatherApi<IWeatherByCity>(
+        `/weather?lat=${lat}&lon=${lon}`,
+      );
+
       dispatch(wheatherCity(result));
-    } else {
-      console.log("Hubo un error en la conexion");
+      await dispatch(getWeatherForecast(result.coord.lat, result.coord.lon));
+    } catch (error: unknown) {
+      dispatch(errWeatherCity());
+      throw error;
     }
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
-};
+  };

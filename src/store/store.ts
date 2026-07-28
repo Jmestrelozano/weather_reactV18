@@ -1,11 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { countrySlices } from "./slices/countrySlices";
-import { weatherSlices } from "./slices/weatherSlices";
+import { countrySlice } from "./country/slice/country.slice";
+import { weatherSlice } from "./weather/slice/weather.slice";
 
 export const store = configureStore({
   reducer: {
-    country: countrySlices.reducer,
-    weather: weatherSlices.reducer,
+    country: countrySlice.reducer,
+    weather: weatherSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

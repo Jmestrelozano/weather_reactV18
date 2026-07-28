@@ -29,7 +29,10 @@ export const countrySlices = createSlice({
   name: "country",
   initialState: initialState,
   reducers: {
-    popularCitys: ({ popularCitys }, action: PayloadAction<IPopularCitys[]>) => {
+    popularCitys: (
+      { popularCitys },
+      action: PayloadAction<IPopularCitys[]>,
+    ) => {
       popularCitys.data = action.payload;
       popularCitys.status = typeStatus.SUCCESS;
     },
@@ -45,7 +48,9 @@ export const countrySlices = createSlice({
 
       citys.forEach((city) => {
         const { sigla, data } = city;
-        const findArrCity = newCitys.find((newCity) => city.sigla == newCity.sigla);
+        const findArrCity = newCitys.find(
+          (newCity) => city.sigla == newCity.sigla,
+        );
 
         if (findArrCity) {
           findArrCity.data.push(data);
@@ -61,7 +66,10 @@ export const countrySlices = createSlice({
     },
     citiesByAcronym: (
       state,
-      action: PayloadAction<{ name: string; data: { sigla: string; data: ICityWorld[] }[] }>
+      action: PayloadAction<{
+        name: string;
+        data: { sigla: string; data: ICityWorld[] }[];
+      }>,
     ) => {
       const name = action.payload.name;
       const data = action.payload.data;
@@ -74,7 +82,9 @@ export const countrySlices = createSlice({
           }
         });
 
-        const city = citysFilter.filter(({ city }) => city.toLowerCase() === name.toLowerCase());
+        const city = citysFilter.filter(
+          ({ city }) => city.toLowerCase() === name.toLowerCase(),
+        );
 
         if (city.length > 0) {
           state.cityByName.data = city;

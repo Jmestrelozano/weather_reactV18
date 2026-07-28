@@ -2,6 +2,15 @@ import { IPopularCitys } from "./popular-citys.interface";
 import { IWeatherByCity } from "./weather-by-city.interface";
 import { ILocalTime } from "./weather-forecast.interface";
 
+export interface ICityWorld {
+  city: string;
+}
+
+export interface ICityGroup {
+  sigla: string;
+  data: ICityWorld[];
+}
+
 export interface ICountrySlice {
   popularCitys: {
     data: IPopularCitys[];
@@ -11,7 +20,7 @@ export interface ICountrySlice {
     };
   };
   allCitys: {
-    data: { sigla: string; data: ICityWorld[] }[];
+    data: ICityGroup[];
     status: string;
     err: {
       msg: string;
@@ -41,8 +50,4 @@ export interface ITimeZone {
   timeZone: string;
   daily: ILocalTime[];
   hourly: ILocalTime[];
-}
-
-export interface ICityWorld {
-  city: string;
 }
