@@ -1,6 +1,6 @@
 import { Dispatch, SetStateAction } from "react";
 import { Button } from "../../atoms/button/Button";
-import { useAppSelector } from "../../../global/globales";
+import { useAppSelector } from "../../../hooks/redux";
 
 export interface PopularCitiesProps {
   tabClick: Dispatch<SetStateAction<string>>;

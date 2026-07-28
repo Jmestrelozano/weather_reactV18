@@ -1,5 +1,5 @@
 import { PropsWithChildren, useEffect, useState } from "react";
-import { useAppSelector } from "../../../global/globales";
+import { useAppSelector } from "../../../hooks/redux";
 import { loadImage } from "../../../services/global-services/loadImage.service";
 
 export const WeatherBackground = ({ children }: PropsWithChildren) => {

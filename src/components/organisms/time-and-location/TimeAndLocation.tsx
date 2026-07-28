@@ -1,4 +1,4 @@
-import { useAppSelector } from "../../../global/globales";
+import { useAppSelector } from "../../../hooks/redux";
 import { formatToLocalTime } from "../../../utils/formatToLocalTime";
 import { Text } from "../../atoms/text/Text";
 

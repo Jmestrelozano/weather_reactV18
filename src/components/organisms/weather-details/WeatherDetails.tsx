@@ -7,7 +7,7 @@ import {
   UilTemperature,
   UilWind,
 } from "@iconscout/react-unicons";
-import { useAppSelector } from "../../../global/globales";
+import { useAppSelector } from "../../../hooks/redux";
 import { formatToLocalTime } from "../../../utils/formatToLocalTime";
 import { SunTempRange } from "../../molecules/sun-temp-range/SunTempRange";
 import { TempSummary } from "../../molecules/temp-summary/TempSummary";

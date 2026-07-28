@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { typeStatus } from "../../global/globales";
+import { typeStatus } from "../../global/status";
 import { ITimeZone, IWeatherSlice } from "../../interfaces/interfaceSlices";
 import { IWeatherByCity } from "../../interfaces/interfaceWeatherByCIty";
 import { alertSuccess } from "../../utils/alertSuccess";

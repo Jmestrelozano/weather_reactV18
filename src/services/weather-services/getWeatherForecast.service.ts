@@ -1,4 +1,4 @@
-import { ApiKEY, BaseURL } from "../../global/globales";
+import { ApiKEY, BaseURL } from "../../global/weatherApi";
 import { ILocalTime, IWeatherForecast } from "../../interfaces/interfaceWeatherForecast";
 import {
   errWheatherForecast,

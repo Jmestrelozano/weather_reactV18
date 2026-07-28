@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { typeStatus } from "../../global/globales";
+import { typeStatus } from "../../global/status";
 import { IPopularCitys } from "../../interfaces/interfacePopularCitys";
 import { ICityWorld, ICountrySlice } from "../../interfaces/interfaceSlices";
 import { alertError } from "../../utils/alertError";
