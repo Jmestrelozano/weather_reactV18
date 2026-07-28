@@ -1,4 +1,10 @@
-# components — Atomic Design
+# Documentación — Weather Zone
+
+## API
+
+- [OpenWeatherMap: origen y uso](./api/openweathermap.md)
+
+## Arquitectura (Atomic Design)
 
 La UI sigue **Atomic Design**. No se usan barrels (`index.ts`); importa el archivo del componente directamente.
 
@@ -11,5 +17,5 @@ La UI sigue **Atomic Design**. No se usan barrels (`index.ts`); importa el archi
 
 Documentación:
 
-- [Qué es Atomic Design](../../docs/architecture/atomic-design.md)
-- [Cómo se usa en este repo](../../docs/architecture/atomic-design-en-el-proyecto.md)
+- [Qué es Atomic Design](./architecture/atomic-design.md)
+- [Cómo se usa en este repo](./architecture/atomic-design-en-el-proyecto.md)
