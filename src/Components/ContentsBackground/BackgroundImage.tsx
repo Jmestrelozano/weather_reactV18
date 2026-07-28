@@ -1,26 +1,25 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { PropsWithChildren, useEffect, useState } from "react";
 import { useAppSelector } from "../../Global/globales";
 import { loadImage } from "../../Services/GlobalServices/loadImage.service";
-import { storeInterface } from "../../Store/store";
 
-export const BackgroundImage = ({ children }: any) => {
+export const BackgroundImage = ({ children }: PropsWithChildren) => {
   const url = `${import.meta.env.BASE_URL}assets/04d.avif`;
   const [iconRef, setIconRef] = useState(url);
   const {
     wheatherCity: { data },
-  } = useAppSelector((store: storeInterface) => store.weather);
+  } = useAppSelector((store) => store.weather);
 
   const isExistImage = async () => {
-    if (data[0] !== undefined) {
-      const { weather } = data[0];
-      const { icon } = weather[0];
-
-      const img = await loadImage(icon);
-      setIconRef(img);
+    const weatherCondition = data[0]?.weather[0];
+    if (!weatherCondition) {
+      return;
     }
+
+    const img = await loadImage(weatherCondition.icon);
+    setIconRef(img);
   };
   useEffect(() => {
-    isExistImage();
+    void isExistImage();
   }, [data, iconRef]);
 
   return (

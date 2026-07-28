@@ -1,5 +1,4 @@
 import { ILocalTime } from "../Interfaces/interfaceWeatherForecast";
-import { formatToLocalTime } from "../Utils/formatToLocalTime";
 import { iconUrlFromCode } from "../Utils/iconUrlFromCode";
 
 interface props {

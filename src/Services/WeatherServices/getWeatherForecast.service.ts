@@ -1,4 +1,3 @@
-import { Dispatch } from "@reduxjs/toolkit";
 import { ApiKEY, BaseURL } from "../../Global/globales";
 import { ILocalTime, IWeatherForecast } from "../../Interfaces/interfaceWeatherForecast";
 import {
@@ -6,9 +5,10 @@ import {
   getWheatherForecast,
   loadWeatherForecast,
 } from "../../Store/Slices/weatherSlices";
+import { AppDispatch } from "../../Store/store";
 import { formatToLocalTime } from "../../Utils/formatToLocalTime";
 
-export const getWeatherForecast = async (lat: number, lon: number, dispatch: Dispatch) => {
+export const getWeatherForecast = async (lat: number, lon: number, dispatch: AppDispatch) => {
   dispatch(loadWeatherForecast());
   try {
     const resp = await fetch(
@@ -25,18 +25,20 @@ export const getWeatherForecast = async (lat: number, lon: number, dispatch: Dis
       let hourlyW: ILocalTime[] = [];
 
       dailyW = daily.slice(1, 6).map((d) => {
+        const icon = d.weather[0]?.icon ?? "01d";
         return {
           title: formatToLocalTime(d.dt, timezone, "ccc"),
           temp: d.temp.day,
-          icon: d.weather[0].icon,
+          icon,
         };
       });
 
       hourlyW = hourly.slice(1, 6).map((h) => {
+        const icon = h.weather[0]?.icon ?? "01d";
         return {
           title: formatToLocalTime(h.dt, timezone, "hh:mm a"),
           temp: h.temp,
-          icon: h.weather[0].icon,
+          icon,
         };
       });
 

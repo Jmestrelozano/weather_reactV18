@@ -8,22 +8,27 @@ import {
   UilSun,
 } from "@iconscout/react-unicons";
 import { useAppSelector } from "../Global/globales";
-import { storeInterface } from "../Store/store";
 import { formatToLocalTime } from "../Utils/formatToLocalTime";
 import { iconUrlFromCode } from "../Utils/iconUrlFromCode";
 
 export const TemperatureAndDetails = () => {
-  const { data } = useAppSelector((store: storeInterface) => store.weather.wheatherCity);
-  const { data: wheatherData } = useAppSelector(
-    (store: storeInterface) => store.weather.wheatherForecast
-  );
+  const { data } = useAppSelector((store) => store.weather.wheatherCity);
+  const { data: wheatherData } = useAppSelector((store) => store.weather.wheatherForecast);
+  const cityWeather = data[0];
+  const weatherCondition = cityWeather?.weather[0];
+
+  if (!cityWeather || !weatherCondition) {
+    return null;
+  }
+
   const { timeZone } = wheatherData;
-  const { icon } = data[0].weather[0];
+  const { icon } = weatherCondition;
   const {
     main: { temp, feels_like, humidity, temp_max, temp_min },
     wind: { speed },
     sys: { sunrise, sunset },
-  } = data[0];
+  } = cityWeather;
+
   return (
     <>
       <div

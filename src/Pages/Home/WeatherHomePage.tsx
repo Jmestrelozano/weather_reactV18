@@ -13,7 +13,6 @@ import { getPopularCitys } from "../../Services/CountryServices/getPopularCitys.
 import { getWeatherByCity } from "../../Services/WeatherServices/getWeatherByCity.service";
 import { getWeatherByLocation } from "../../Services/WeatherServices/getWeatherByLocation.service";
 import { citiesByAcronym, setStatusCityByName } from "../../Store/Slices/countrySlices";
-import { storeInterface } from "../../Store/store";
 import { alertError } from "../../Utils/alertError";
 import { locationUser } from "../../Utils/locationUser";
 
@@ -22,11 +21,11 @@ function WeatherHomePage() {
   const {
     allCitys: { data: dataCitys },
     statusCityByName,
-  } = useAppSelector((store: storeInterface) => store.country);
-  const { status } = useAppSelector((store: storeInterface) => store.weather.wheatherCity);
+  } = useAppSelector((store) => store.country);
+  const { status } = useAppSelector((store) => store.weather.wheatherCity);
   const {
     data: { hourly, daily },
-  } = useAppSelector((store: storeInterface) => store.weather.wheatherForecast);
+  } = useAppSelector((store) => store.weather.wheatherForecast);
 
   const { coords } = locationUser();
 
@@ -70,7 +69,9 @@ function WeatherHomePage() {
   }, [tabCountry]);
 
   useEffect(() => {
-    name !== "" && dispatch(citiesByAcronym({ name, data: dataCitys }));
+    if (name !== "") {
+      dispatch(citiesByAcronym({ name, data: dataCitys }));
+    }
   }, [debounceValue]);
 
   return (

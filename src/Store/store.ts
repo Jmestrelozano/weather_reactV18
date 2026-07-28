@@ -1,12 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { ICountrySlice, IWeatherSlice } from "../Interfaces/interfaceSlices";
 import { countrySlices } from "./Slices/countrySlices";
 import { weatherSlices } from "./Slices/weatherSlices";
-
-export interface storeInterface {
-  country: ICountrySlice;
-  weather: IWeatherSlice;
-}
 
 export const store = configureStore({
   reducer: {

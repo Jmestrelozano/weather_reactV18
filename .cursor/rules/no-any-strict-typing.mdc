@@ -1,0 +1,34 @@
+---
+description: Prohíbe any y exige tipado estricto en TypeScript/React
+globs: **/*.{ts,tsx}
+alwaysApply: true
+---
+
+# Tipado estricto (sin `any`)
+
+## Prohibido
+
+- `any`, `as any`, `any[]`, `Record<string, any>`, genéricos con `any`
+- `@ts-ignore`, `@ts-nocheck`, `@ts-expect-error` sin justificación real
+- props tipadas como `any` o `props: any`
+- `Function`, `Object` como tipos (usar firmas concretas)
+
+## Obligatorio
+
+- Tipar props con interfaces/`PropsWithChildren`/`ReactNode`
+- Tipar estado Redux, payloads y respuestas de API con interfaces del proyecto
+- En `catch`, tratar el error como `unknown` y estrechar el tipo
+- Usar `AppDispatch` / `RootState` en vez de `Dispatch` genérico sin tipar
+- Preferir `unknown` + type guards cuando el valor aún no está validado
+
+## Ejemplos
+
+```ts
+// ❌ BAD
+const data: any = response;
+export const Box = ({ children }: any) => children;
+
+// ✅ GOOD
+const data: ICityWorld[] = response;
+export const Box = ({ children }: PropsWithChildren) => children;
+```

@@ -1,6 +1,6 @@
 import { IPopularCitys } from "./interfacePopularCitys";
 import { IWeatherByCity } from "./interfaceWeatherByCIty";
-import { ILocalTime, IWeatherForecast } from "./interfaceWeatherForecast";
+import { ILocalTime } from "./interfaceWeatherForecast";
 
 export interface ICountrySlice {
   popularCitys: {
@@ -11,7 +11,7 @@ export interface ICountrySlice {
     };
   };
   allCitys: {
-    data: { sigla: string; data: any }[];
+    data: { sigla: string; data: ICityWorld[] }[];
     status: string;
     err: {
       msg: string;

@@ -9,7 +9,7 @@ export const loadImage = async (code: string) => {
     } else {
       return urlDef;
     }
-  } catch (error) {
+  } catch {
     return urlDef;
   }
 };

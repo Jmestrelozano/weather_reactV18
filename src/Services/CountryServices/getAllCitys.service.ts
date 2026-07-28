@@ -1,14 +1,17 @@
-import { Dispatch } from "@reduxjs/toolkit";
+import { AppDispatch } from "../../Store/store";
 import { allCitys } from "../../Store/Slices/countrySlices";
+import { ICityWorld } from "../../Interfaces/interfaceSlices";
 import ciudades from "../Data/ciudades.json";
 
-export const getAllCitys = () => async (dispatch: Dispatch) => {
-  try {
-    const result: any = ciudades;
+type CityJsonEntry = {
+  city: string;
+};
 
-    const newResult = result.map((ciudades: any) => {
-      return { city: ciudades.city };
-    });
+export const getAllCitys = () => async (dispatch: AppDispatch) => {
+  try {
+    const result = ciudades as CityJsonEntry[];
+
+    const newResult: ICityWorld[] = result.map(({ city }) => ({ city }));
 
     dispatch(allCitys(newResult));
 

@@ -8,8 +8,7 @@ export const locationUser = () => {
     isError: false,
   });
 
-  if ("geolocation" in navigator) {
-  } else {
+  if (!("geolocation" in navigator)) {
     alert("Tu navegador no soporta el acceso a la ubicación. Intenta con otro");
   }
 

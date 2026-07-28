@@ -1,19 +1,22 @@
 import { useAppSelector } from "../Global/globales";
-import { storeInterface } from "../Store/store";
 import { formatToLocalTime } from "../Utils/formatToLocalTime";
 
 export const TimeAndLocation = () => {
   const {
     wheatherCity: { data },
-  } = useAppSelector((store: storeInterface) => store.weather);
-  const { data: wheatherForecast } = useAppSelector(
-    (store: storeInterface) => store.weather.wheatherForecast
-  );
+  } = useAppSelector((store) => store.weather);
+  const { data: wheatherForecast } = useAppSelector((store) => store.weather.wheatherForecast);
+  const cityWeather = data[0];
+
+  if (!cityWeather) {
+    return null;
+  }
+
   const {
     dt,
     name,
     sys: { country },
-  } = data[0];
+  } = cityWeather;
 
   const { timeZone } = wheatherForecast;
   return (

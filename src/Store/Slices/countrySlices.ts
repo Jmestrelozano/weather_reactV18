@@ -35,7 +35,7 @@ export const countrySlices = createSlice({
     },
     allCitys: ({ allCitys }, action: PayloadAction<ICityWorld[]>) => {
       const data = action.payload;
-      const newCitys: { sigla: string; data: any }[] = [];
+      const newCitys: { sigla: string; data: ICityWorld[] }[] = [];
       const citys = data.map((cityWorld) => {
         return {
           sigla: cityWorld.city.charAt(0),

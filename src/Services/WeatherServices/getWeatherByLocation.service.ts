@@ -1,10 +1,11 @@
-import { Dispatch } from "@reduxjs/toolkit";
 import { ApiKEY, BaseURL } from "../../Global/globales";
 import { IWeatherByCity } from "../../Interfaces/interfaceWeatherByCIty";
 import { wheatherCity } from "../../Store/Slices/weatherSlices";
+import { AppDispatch } from "../../Store/store";
 import { getWeatherForecast } from "./getWeatherForecast.service";
 
-export const getWeatherByLocation = (lat: number, long: number) => async (dispatch: Dispatch) => {
+export const getWeatherByLocation =
+  (lat: number, long: number) => async (dispatch: AppDispatch) => {
   try {
     const resp = await fetch(
       BaseURL + `/weather?lat=${lat}&lon=${long}` + `&appid=${ApiKEY}&units=metric`

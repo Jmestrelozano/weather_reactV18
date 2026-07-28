@@ -8,7 +8,6 @@ export const alertError = (errMsgCityFilter: string) => {
     closeOnClick: true,
     pauseOnHover: true,
     draggable: true,
-    progress: undefined,
     theme: "light",
   });
 };

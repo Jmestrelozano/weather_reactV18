@@ -1,13 +1,14 @@
-import { useAppSelector as useSelector } from "../../Global/globales";
-import { storeInterface } from "../../Store/store";
+import { Dispatch, SetStateAction } from "react";
+import { useAppSelector } from "../../Global/globales";
 
-interface props {
-  tabClick: React.Dispatch<React.SetStateAction<string>>;
+interface TobButtonProps {
+  tabClick: Dispatch<SetStateAction<string>>;
 }
-export const TobButton = ({ tabClick }: props) => {
+
+export const TobButton = ({ tabClick }: TobButtonProps) => {
   const {
     popularCitys: { data: popularCitys },
-  } = useSelector((store: storeInterface) => store.country);
+  } = useAppSelector((store) => store.country);
   return (
     <div className="flex items-center justify-around my-6">
       {popularCitys.map(({ title, id }) => {

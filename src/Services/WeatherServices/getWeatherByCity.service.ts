@@ -1,10 +1,10 @@
-import { Dispatch } from "@reduxjs/toolkit";
 import { ApiKEY, BaseURL } from "../../Global/globales";
 import { IWeatherByCity } from "../../Interfaces/interfaceWeatherByCIty";
 import { errWeatherCity, loadWeatherCity, wheatherCity } from "../../Store/Slices/weatherSlices";
+import { AppDispatch } from "../../Store/store";
 import { getWeatherForecast } from "./getWeatherForecast.service";
 
-export const getWeatherByCity = (city: string) => async (dispatch: Dispatch) => {
+export const getWeatherByCity = (city: string) => async (dispatch: AppDispatch) => {
   dispatch(loadWeatherCity());
   try {
     city = city !== "" ? city : "Cartagena";
