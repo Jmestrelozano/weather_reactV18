@@ -1,5 +1,5 @@
 import { ApiKEY, BaseURL } from "../../global/weatherApi";
-import { ILocalTime, IWeatherForecast } from "../../interfaces/interfaceWeatherForecast";
+import { ILocalTime, IWeatherForecast } from "../../interfaces/weather-forecast.interface";
 import {
   errWheatherForecast,
   getWheatherForecast,

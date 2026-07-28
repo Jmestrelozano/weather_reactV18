@@ -1,5 +1,5 @@
 import { ApiKEY, BaseURL } from "../../global/weatherApi";
-import { IWeatherByCity } from "../../interfaces/interfaceWeatherByCIty";
+import { IWeatherByCity } from "../../interfaces/weather-by-city.interface";
 import { errWeatherCity, loadWeatherCity, wheatherCity } from "../../store/slices/weatherSlices";
 import { AppDispatch } from "../../store/store";
 import { getWeatherForecast } from "./getWeatherForecast.service";

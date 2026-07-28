@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { typeStatus } from "../../global/status";
-import { ITimeZone, IWeatherSlice } from "../../interfaces/interfaceSlices";
-import { IWeatherByCity } from "../../interfaces/interfaceWeatherByCIty";
+import { ITimeZone, IWeatherSlice } from "../../interfaces/slices.interface";
+import { IWeatherByCity } from "../../interfaces/weather-by-city.interface";
 import { alertSuccess } from "../../utils/alertSuccess";
 
 const initialState: IWeatherSlice = {

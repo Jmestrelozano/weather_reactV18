@@ -1,4 +1,4 @@
-import { ILocalTime } from "../../../interfaces/interfaceWeatherForecast";
+import { ILocalTime } from "../../../interfaces/weather-forecast.interface";
 import { Divider } from "../../atoms/divider/Divider";
 import { Heading } from "../../atoms/heading/Heading";
 import { ForecastItem } from "../../molecules/forecast-item/ForecastItem";

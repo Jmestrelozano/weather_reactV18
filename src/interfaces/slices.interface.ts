@@ -1,6 +1,6 @@
-import { IPopularCitys } from "./interfacePopularCitys";
-import { IWeatherByCity } from "./interfaceWeatherByCIty";
-import { ILocalTime } from "./interfaceWeatherForecast";
+import { IPopularCitys } from "./popular-citys.interface";
+import { IWeatherByCity } from "./weather-by-city.interface";
+import { ILocalTime } from "./weather-forecast.interface";
 
 export interface ICountrySlice {
   popularCitys: {

@@ -1,7 +1,7 @@
 import { AppDispatch } from "../../store/store";
 import { allCitys } from "../../store/slices/countrySlices";
-import { ICityWorld } from "../../interfaces/interfaceSlices";
-import ciudades from "../Data/ciudades.json";
+import { ICityWorld } from "../../interfaces/slices.interface";
+import ciudades from "../../data/cities/ciudades.json";
 
 type CityJsonEntry = {
   city: string;
