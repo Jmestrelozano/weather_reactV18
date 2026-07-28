@@ -8,7 +8,7 @@ import { useUserLocationWeather } from "./useUserLocationWeather";
 export const useWeatherHome = () => {
   useLoadHomeCities();
 
-  const { countryName, setCountryName } = useCitySearch();
+  const { countryName, setCountryName, onSearch } = useCitySearch();
   const { onPopularCitySelect } = usePopularCityTab(setCountryName);
   const { onLocationClick } = useUserLocationWeather();
 
@@ -18,6 +18,7 @@ export const useWeatherHome = () => {
   return {
     countryName,
     setCountryName,
+    onSearch,
     onPopularCitySelect,
     onLocationClick,
     isWeatherReady,

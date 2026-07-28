@@ -11,6 +11,8 @@ export interface ILocalTime {
   title: string;
   temp: number;
   icon: string;
+  tempMin?: number;
+  tempMax?: number;
 }
 
 export interface Daily {

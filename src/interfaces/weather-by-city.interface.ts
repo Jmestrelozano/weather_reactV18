@@ -12,6 +12,12 @@ export interface IWeatherByCity {
   name: string;
   timezone: number;
   cod: number;
+  rain?: RainVolume;
+}
+
+export interface RainVolume {
+  "1h"?: number;
+  "3h"?: number;
 }
 
 export interface Clouds {

@@ -18,7 +18,12 @@ export const getWeatherByCity = (city: string) => async (dispatch: AppDispatch) 
     const result = await fetchWeatherApi<IWeatherByCity>(`/weather?q=${query}`);
 
     dispatch(wheatherCity(result));
-    await dispatch(getWeatherForecast(result.coord.lat, result.coord.lon));
+
+    try {
+      await dispatch(getWeatherForecast(result.coord.lat, result.coord.lon));
+    } catch {
+      // Current weather can still render if forecast endpoints are unavailable.
+    }
   } catch (error: unknown) {
     dispatch(errWeatherCity());
     throw error;

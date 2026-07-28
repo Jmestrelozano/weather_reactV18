@@ -1,34 +1,11 @@
-import { PropsWithChildren, useEffect, useState } from "react";
-import { useAppSelector } from "../../../hooks/redux";
-import { loadImage } from "../../../services/global-services/loadImage.service";
+import { PropsWithChildren } from "react";
 
 export const WeatherBackground = ({ children }: PropsWithChildren) => {
-  const url = `${import.meta.env.BASE_URL}assets/04d.avif`;
-  const [iconRef, setIconRef] = useState(url);
-  const {
-    wheatherCity: { data },
-  } = useAppSelector((store) => store.weather);
-
-  const isExistImage = async () => {
-    const weatherCondition = data[0]?.weather[0];
-    if (!weatherCondition) {
-      return;
-    }
-
-    const img = await loadImage(weatherCondition.icon);
-    setIconRef(img);
-  };
-
-  useEffect(() => {
-    void isExistImage();
-  }, [data, iconRef]);
-
   return (
-    <div
-      style={{ backgroundImage: `url(${iconRef})` }}
-      className="max-w-screen py-5 px-32 bg-cover bg-center bg-no-repeat min-h-screen shadow-xl shadow-gray-400"
-    >
-      {children}
+    <div className="min-h-screen w-full bg-weather-bg text-white">
+      <div className="mx-auto flex w-full max-w-6xl flex-col gap-8 px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
+        {children}
+      </div>
     </div>
   );
 };

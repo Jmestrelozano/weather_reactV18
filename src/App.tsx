@@ -1,10 +1,20 @@
-import { lazy, Suspense } from "react";
+import { lazy, Suspense, type ComponentType } from "react";
+
+const WeatherHomePage = lazy(
+  () =>
+    import("./pages/home/WeatherHomePage") as Promise<{
+      default: ComponentType;
+    }>,
+);
 
 function App() {
-  const WeatherHomePage = lazy(() => import("./pages/home/WeatherHomePage"));
   return (
     <Suspense
-      fallback={<div className="flex justify-center items-center min-h-screen">Cargando</div>}
+      fallback={
+        <div className="flex min-h-screen items-center justify-center bg-weather-bg text-white">
+          Loading...
+        </div>
+      }
     >
       <WeatherHomePage />
     </Suspense>

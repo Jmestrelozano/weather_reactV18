@@ -1,5 +1,5 @@
 import { ChangeEvent } from "react";
-import { UilLocationPoint } from "@iconscout/react-unicons";
+import { UilLocationPoint, UilSearch } from "@iconscout/react-unicons";
 import { IconButton } from "../../atoms/icon-button/IconButton";
 import { Input } from "../../atoms/input/Input";
 
@@ -14,21 +14,27 @@ export const SearchField = ({
   value,
   onChange,
   onLocationClick,
-  placeholder = "Search...",
+  placeholder = "Search for a place...",
 }: SearchFieldProps) => {
   return (
-    <div className="flex flex-row w-3/4 items-center justify-center space-x-4">
+    <div className="relative flex w-full items-center">
+      <UilSearch
+        size={18}
+        className="pointer-events-none absolute left-4 text-weather-muted"
+        aria-hidden="true"
+      />
       <Input
         onChange={onChange}
         value={value}
         placeholder={placeholder}
-        className="text-xl font-light p-2 w-full shadow-xl focus:outline-none capitalize placeholder:lowercase"
+        className="w-full rounded-xl border border-transparent bg-weather-surface py-3.5 pl-11 pr-12 text-base text-white placeholder:text-weather-muted focus:border-weather-accent focus:outline-none"
       />
-      <IconButton aria-label="input-button-location" onClick={onLocationClick}>
-        <UilLocationPoint
-          size={25}
-          className="text-white cursor-pointer transition ease-out hover:scale-125"
-        />
+      <IconButton
+        aria-label="Use current location"
+        onClick={onLocationClick}
+        className="absolute right-3 text-weather-muted transition hover:text-white"
+      >
+        <UilLocationPoint size={20} />
       </IconButton>
     </div>
   );
