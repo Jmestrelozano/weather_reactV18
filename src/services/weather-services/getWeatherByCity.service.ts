@@ -13,19 +13,14 @@ const DEFAULT_CITY = "Cartagena";
 export const getWeatherByCity = (city: string) => async (dispatch: AppDispatch) => {
   dispatch(loadWeatherCity());
 
-  try {
-    const query = city.trim() || DEFAULT_CITY;
-    const result = await fetchWeatherApi<IWeatherByCity>(`/weather?q=${query}`);
-
-    dispatch(wheatherCity(result));
-
-    try {
-      await dispatch(getWeatherForecast(result.coord.lat, result.coord.lon));
-    } catch {
-      // Current weather can still render if forecast endpoints are unavailable.
-    }
-  } catch (error: unknown) {
+  const query = city.trim() || DEFAULT_CITY;
+  const result = await fetchWeatherApi<IWeatherByCity>(`/weather?q=${query}`).catch(() => {
     dispatch(errWeatherCity());
-    throw error;
-  }
+    return null;
+  });
+
+  if (!result) return;
+
+  dispatch(wheatherCity(result));
+  void dispatch(getWeatherForecast(result.coord.lat, result.coord.lon));
 };

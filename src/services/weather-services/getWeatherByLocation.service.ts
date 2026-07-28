@@ -12,15 +12,15 @@ export const getWeatherByLocation =
   (lat: number, lon: number) => async (dispatch: AppDispatch) => {
     dispatch(loadWeatherCity());
 
-    try {
-      const result = await fetchWeatherApi<IWeatherByCity>(
-        `/weather?lat=${lat}&lon=${lon}`,
-      );
-
-      dispatch(wheatherCity(result));
-      await dispatch(getWeatherForecast(result.coord.lat, result.coord.lon));
-    } catch (error: unknown) {
+    const result = await fetchWeatherApi<IWeatherByCity>(
+      `/weather?lat=${lat}&lon=${lon}`,
+    ).catch(() => {
       dispatch(errWeatherCity());
-      throw error;
-    }
+      return null;
+    });
+
+    if (!result) return;
+
+    dispatch(wheatherCity(result));
+    void dispatch(getWeatherForecast(result.coord.lat, result.coord.lon));
   };
